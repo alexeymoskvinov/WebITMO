@@ -3,7 +3,11 @@ document.getElementById('getUsers').addEventListener('click', fetchUsers);
 function fetchUsers() {
     fetch('https://jsonplaceholder.typicode.com/users')
         .then((res) => {
+            if (!res.ok) {
+                throw new Error('Something went wrong');
+            }
             return res.json();
+
         })
         .then((data) => {
             let response = '';
@@ -34,5 +38,8 @@ function fetchUsers() {
             }
 
             document.getElementById("usersList").innerHTML = response;
-        });
+        }).catch((error) => {
+            document.getElementById("usersList").innerHTML = error.message;
+        console.log(error);
+    })
 }
